@@ -8,17 +8,17 @@ require("dotenv").config();
 const router = express.Router();
 
 // User Login
-router.post("/login", async (req, res) => {
+router.post("/login", async (request, response) => {
     try {
-        const { username, password } = req.body;
+        const { username, password } = request.body;
 
         // Find user by login
         const user = await User.findOne({ where: { username } });
-        if (!user) return res.status(401).json({ message: "Invalid login or password" });
+        if (!user) return response.status(401).json({ message: "Invalid login or password" });
 
         // Compare password
         const isMatch = await bcrypt.compare(password, user.password);
-        if (!isMatch) return res.status(401).json({ message: "Invalid login or password" });
+        if (!isMatch) return response.status(401).json({ message: "Invalid login or password" });
 
         // Generate JWT Token
         const token = jwt.sign(
@@ -31,16 +31,16 @@ router.post("/login", async (req, res) => {
         user.token = token;
         await user.save();
 
-        res.json({ message: "Login successful", token });
+        response.json({ message: "Login successful", token });
     } catch (error) {
-        res.status(500).json({ message: "Server error", error: error.message });
+        response.status(500).json({ message: "Server error", error: error.message });
     }
 });
 
 // User Registration
-router.post("/register", async (req, res) => {
+router.post("/register", async (request, response) => {
     try {
-        const { id, username, password, idrol, idalmacen, number, emailCompany, personId, idhorario } = req.body;
+        const { id, username, password, idrol, idalmacen, number, emailCompany, personId, idhorario } = request.body;
 
         // Hash passwords
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -59,9 +59,9 @@ router.post("/register", async (req, res) => {
             idhorario,
         });
 
-        res.status(201).json({ message: "User registered successfully", user });
+        response.status(201).json({ message: "User registered successfully", user });
     } catch (error) {
-        res.status(500).json({ message: "Server error", error: error.message });
+        response.status(500).json({ message: "Server error", error: error.message });
     }
 });
 

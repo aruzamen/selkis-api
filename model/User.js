@@ -25,7 +25,8 @@ const User = sequelize.define("User", {
         allowNull: false,
     },
     status: {
-        type: DataTypes.STRING(10),
+        type: DataTypes.ENUM,
+        values: ['Activo', 'Inactivo'],
         allowNull: false,
         defaultValue: "Activo",
         field: 'estado'

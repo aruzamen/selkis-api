@@ -3,14 +3,14 @@ require("dotenv").config();
 const express = require("express");
 const sequelize = require("./config/database");
 const authRoutes = require("./routes/auth");
-const protectedRoutes = require("./routes/protected");
+const userRoutes = require("./routes/users");
 
 const app = express();
 app.use(express.json());
 
 // Routes
 app.use("/auth", authRoutes);
-app.use("/protected", protectedRoutes);
+app.use("/users", userRoutes);
 
 // Root Route
 app.get("/", (req, res) => {
