@@ -2,57 +2,67 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 const Person = require("./Person"); // Import the Person model
 
-const Usuario = sequelize.define("Usuario", {
-    idusuario: {
+const User = sequelize.define("User", {
+    id: {
         type: DataTypes.STRING(20),
         allowNull: false,
         primaryKey: true,
+        field: 'idusuario'
     },
-    login: {
+    username: {
         type: DataTypes.STRING(30),
         allowNull: false,
+        unique: true,
+        field: 'login'
     },
-    paswd: {
+    password: {
         type: DataTypes.STRING(255), // Hashed password
         allowNull: false,
+        field: 'paswd'
     },
     idrol: {
         type: DataTypes.STRING(20),
         allowNull: false,
     },
-    estado: {
+    status: {
         type: DataTypes.STRING(10),
         allowNull: false,
         defaultValue: "Activo",
+        field: 'estado'
     },
     idalmacen: {
         type: DataTypes.STRING(20),
         allowNull: false,
     },
-    numero: {
+    number: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        field: 'numero'
     },
-    emaile: {
+    emailCompany: {
         type: DataTypes.STRING(50),
         allowNull: true,
         validate: { isEmail: true },
+        field: 'emaile'
     },
-    paswde: {
+    passwordCompany: {
         type: DataTypes.STRING(255), // Hashed password
         allowNull: false,
+        field: 'paswde'
     },
-    firma: {
+    sign: {
         type: DataTypes.TEXT,
         allowNull: true,
+        field: 'firma'
     },
-    idpersona: {
+    personId: {
         type: DataTypes.STRING(20),
         allowNull: false,
         references: {
             model: Person, // Link to the Person model
-            key: "idpersona",
+            key: "id",
         },
+        field: 'idpersona'
     },
     link: {
         type: DataTypes.STRING(50),
@@ -73,6 +83,6 @@ const Usuario = sequelize.define("Usuario", {
 });
 
 // Define association
-Usuario.belongsTo(Person, { foreignKey: "idpersona", as: "persona" });
+User.belongsTo(Person, { foreignKey: "personId", as: "person" });
 
-module.exports = Usuario;
+module.exports = User;

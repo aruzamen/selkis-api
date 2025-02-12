@@ -1,7 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const Usuario = require("../model/Usuario");
+const User = require("../model/User");
 const authenticateToken = require("../middleware/authMiddleware"); // Import authentication middleware
 require("dotenv").config();
 
@@ -10,26 +10,26 @@ const router = express.Router();
 // User Login
 router.post("/login", async (req, res) => {
     try {
-        const { login, password } = req.body;
+        const { username, password } = req.body;
 
         // Find user by login
-        const usuario = await Usuario.findOne({ where: { login } });
-        if (!usuario) return res.status(401).json({ message: "Invalid login or password" });
+        const user = await User.findOne({ where: { username } });
+        if (!user) return res.status(401).json({ message: "Invalid login or password" });
 
         // Compare password
-        const isMatch = await bcrypt.compare(password, usuario.paswd);
+        const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) return res.status(401).json({ message: "Invalid login or password" });
 
         // Generate JWT Token
         const token = jwt.sign(
-            { idusuario: usuario.idusuario, login: usuario.login, idrol: usuario.idrol },
+            { id: user.id, username: user.username, idrol: user.idrol },
             process.env.JWT_SECRET,
             { expiresIn: "1h" }
         );
 
         // Update token field in database
-        usuario.token = token;
-        await usuario.save();
+        user.token = token;
+        await user.save();
 
         res.json({ message: "Login successful", token });
     } catch (error) {
@@ -40,26 +40,26 @@ router.post("/login", async (req, res) => {
 // User Registration
 router.post("/register", async (req, res) => {
     try {
-        const { idusuario, login, password, idrol, idalmacen, numero, emaile, idpersona, idhorario } = req.body;
+        const { id, username, password, idrol, idalmacen, number, emailCompany, personId, idhorario } = req.body;
 
         // Hash passwords
         const hashedPassword = await bcrypt.hash(password, 10);
 
         // Create new user
-        const usuario = await Usuario.create({
-            idusuario,
-            login,
-            paswd: hashedPassword,
-            paswde: hashedPassword,
+        const user = await User.create({
+            id,
+            username,
+            password: hashedPassword,
+            passwordCompany: hashedPassword,
             idrol,
             idalmacen,
-            numero,
-            emaile,
-            idpersona,
+            number,
+            emailCompany,
+            personaId,
             idhorario,
         });
 
-        res.status(201).json({ message: "User registered successfully", usuario });
+        res.status(201).json({ message: "User registered successfully", user });
     } catch (error) {
         res.status(500).json({ message: "Server error", error: error.message });
     }

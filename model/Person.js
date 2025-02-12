@@ -2,70 +2,82 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
 
 const Person = sequelize.define("Person", {
-    idpersona: {
+    id: {
         type: DataTypes.STRING(20),
         allowNull: false,
         primaryKey: true,
+        field: 'idpersona'
     },
     nit: {
         type: DataTypes.STRING(20),
         allowNull: false,
         unique: true,
     },
-    nombres: {
+    fullname: {
         type: DataTypes.STRING(100),
         allowNull: false,
+        field: 'nombres'
     },
-    carnetidentidad: {
+    ci: {
         type: DataTypes.STRING(15),
         allowNull: false,
         unique: true,
+        field: 'carnetidentidad'
     },
     email: {
         type: DataTypes.STRING(200),
         allowNull: true,
         validate: { isEmail: true },
     },
-    telefono: {
+    phone: {
         type: DataTypes.TEXT,
         allowNull: true,
+        field: 'telefono'
     },
-    celular: {
+    cellphone: {
         type: DataTypes.STRING(20),
         allowNull: true,
+        field: 'celular'
     },
     fax: {
         type: DataTypes.STRING(100),
         allowNull: true,
     },
-    fechareg: {
+    registeredAt: {
         type: DataTypes.DATEONLY,
         allowNull: true,
+        field: 'fechareg'
     },
-    estado: {
+    status: {
         type: DataTypes.STRING(20),
         allowNull: false,
         defaultValue: "Activo",
+        field: 'estado'
     },
-    numero: {
+    number: {
         type: DataTypes.INTEGER,
         allowNull: false,
+        field: 'numero'
     },
-    direccion: {
+    address: {
         type: DataTypes.TEXT,
         allowNull: true,
+        field: 'direccion'
     },
-    paginaweb: {
+    web: {
         type: DataTypes.STRING(100),
         allowNull: true,
+        field: 'paginaweb'
     },
-    tipodoc: {
+    docType: {
         type: DataTypes.INTEGER,
         allowNull: true,
+        field: 'tipodoc'
     },
-    complemento: {
+    complement: {
         type: DataTypes.STRING(20),
         allowNull: true,
+        field: 'complemento'
     },
 }, {
     tableName: "persona",
