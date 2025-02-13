@@ -55,7 +55,7 @@ router.post("/register", async (request, response) => {
             idalmacen,
             number,
             emailCompany,
-            personaId,
+            personId,
             idhorario,
         });
 
