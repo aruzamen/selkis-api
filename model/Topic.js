@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-const Tag = require("./tag");
+const Tag = require("./Tag");
 
 const Topic = sequelize.define("Topic", {
     id: {
