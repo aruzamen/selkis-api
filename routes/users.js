@@ -15,14 +15,14 @@ router.get("/profile", authenticateToken, async (request, response) => {
             attributes: ["id", "username", "status", "emailCompany"], // User fields
             include: [
                 {
-                    model: Person,
-                    as: "person",
-                    attributes: ["id", "fullname", "email", "cellphone", "address"], // Select relevant Person fields
+                  model: Person,
+                  as: "person",
+                  attributes: ["id", "fullname", "email", "cellphone", "address"], // Select relevant Person fields
                 },
                 {
                   model: Role,
                   as: "role",
-                  attributes: ["id", "name", "number"], // Select relevant Person fields
+                  attributes: ["id", "name", "number"], // Select relevant Role fields
               },
             ],
         });
