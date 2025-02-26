@@ -1,6 +1,7 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../config/database");
-const Person = require("./Person"); // Import the Person model
+const Person = require("./Person");
+const Role = require("./Role")
 
 const User = sequelize.define("User", {
     id: {
@@ -20,9 +21,14 @@ const User = sequelize.define("User", {
         allowNull: false,
         field: 'paswd'
     },
-    idrol: {
+    roleId: {
         type: DataTypes.STRING(20),
         allowNull: false,
+        references: {
+            model: Role, // Link to the Role model
+            key: "id",
+        },
+        field: 'idrol'
     },
     status: {
         type: DataTypes.ENUM,
@@ -85,5 +91,6 @@ const User = sequelize.define("User", {
 
 // Define association
 User.belongsTo(Person, { foreignKey: "personId", as: "person" });
+User.belongsTo(Role, { foreignKey: "roleId", as: "role" });
 
 module.exports = User;

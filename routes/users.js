@@ -1,5 +1,6 @@
 const express = require("express");
 const User = require("../model/User");
+const Role = require("../model/Role");
 const Person = require("../model/Person");
 const authenticateToken = require("../middleware/authMiddleware");
 
@@ -11,13 +12,18 @@ router.get("/profile", authenticateToken, async (request, response) => {
         
         const user = await User.findOne({
             where: { id: request.user.id }, // Get user based on token payload
-            attributes: ["id", "username", "idrol", "status", "emailCompany"], // User fields
+            attributes: ["id", "username", "status", "emailCompany"], // User fields
             include: [
                 {
                     model: Person,
                     as: "person",
                     attributes: ["id", "fullname", "email", "cellphone", "address"], // Select relevant Person fields
                 },
+                {
+                  model: Role,
+                  as: "role",
+                  attributes: ["id", "name", "number"], // Select relevant Person fields
+              },
             ],
         });
 
